@@ -43,7 +43,7 @@ Resources:
     Type: AWS::DynamoDB::Table
     DeletionPolicy: Retain
     Properties:
-      TableName: !Sub ${AWS::StackName}-lenka
+      TableName: !Sub lenka
       AttributeDefinitions:
         - AttributeName: id
           AttributeType: S
