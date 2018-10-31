@@ -1,5 +1,5 @@
 const schema = require("./schema/putHello.json");
-const Lambda = require("../../utils/Lambda");
+const Lambda = require("../../utils/lambda");
 const putHello = require("../service/putHello");
 
 const handler = async ({ body: { id, name, surname } }) => {

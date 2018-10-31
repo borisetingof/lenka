@@ -1,5 +1,5 @@
 const schema = require("./schema/getHello.json");
-const Lambda = require("../../utils/Lambda");
+const Lambda = require("../../utils/lambda");
 const getHello = require("../service/getHello");
 
 const handler = async ({ pathParameters: { id } }) => {
