@@ -8,21 +8,11 @@ Parameters:
     Type: String
     Description: AWS CodeStar projectID used to associate new resources to team members
 
-# Enable blue/green deployments using this Globals section. For instructions, see the AWS CodeStar User Guide:
-# https://docs.aws.amazon.com/codestar/latest/userguide/how-to-modify-serverless-project.html?icmpid=docs_acs_rm_tr
-#
-# Globals:
-#   Function:
-#     AutoPublishAlias: live
-#     DeploymentPreference:
-#       Enabled: true
-#       Type: Canary10Percent5Minutes
-
 Resources:
-  GetHelloWorld:
+  getHello:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: index.get
+      Handler: src/hello/lambda/getHello.handler
       Runtime: nodejs8.10
       Role:
         Fn::ImportValue:
@@ -31,5 +21,35 @@ Resources:
         GetEvent:
           Type: Api
           Properties:
-            Path: /
+            Path: /hello/{id}
             Method: get
+
+  putHello:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/hello/lambda/putHello.handler
+      Runtime: nodejs8.10
+      Role:
+        Fn::ImportValue:
+          !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
+      Events:
+        GetEvent:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: put          
+  
+  lenkaTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    Properties:
+      TableName: !Sub ${AWS::StackName}-lenka
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1       
