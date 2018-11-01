@@ -4,7 +4,9 @@
     "version": "0.0.1",
     "private": true,
     "dependencies": {
-        "ajv": "^6.5.4"
+        "ajv": "^6.5.4",
+        "amazon-cognito-identity-js": "^3.0.3",
+        "node-fetch": "^2.2.0"
     },
     "devDependencies": {
         "aws-sdk": "^2.324.0",

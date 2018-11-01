@@ -1,5 +1,11 @@
 {
   "hello": {
     "tableName": "lenka"
+  },
+  "auth": {
+    "poolData": {
+      "UserPoolId": "ap-southeast-2_4lqtgN0Pw",
+      "ClientId": "4kvpds3dbaa6uvfhpqcdbg8rk3"
+    }
   }
 }
