@@ -2,19 +2,22 @@
   "type": "object",
   "json": "body",
   "properties": {
+    "headers": {
+      "type": "object",
+      "properties": {
+        "token": { "type": "string", "minLength": 100 }
+      },
+      "required": ["token"]
+    },
     "body": {
       "type": "object",
       "properties": {
-        "id": {"type": "string"},
-        "name": {"type": "string"},
-        "surname": {"type":"string"}
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "surname": { "type": "string" }
       },
-      "required": [
-        "id",
-        "name",
-        "surname"
-      ]
+      "required": ["id", "name", "surname"]
     }
   },
-  "required": ["body"]
+  "required": ["headers", "body"]
 }

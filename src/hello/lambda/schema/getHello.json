@@ -1,6 +1,13 @@
 {
   "type": "object",
   "properties": {
+    "headers": {
+      "type": "object",
+      "properties": {
+        "token": { "type": "string", "minLength": 100 }
+      },
+      "required": ["token"]
+    },
     "pathParameters": {
       "type": "object",
       "properties": {
@@ -9,5 +16,5 @@
       "required": ["id"]
     }
   },
-  "required": ["pathParameters"]
+  "required": ["headers", "pathParameters"]
 }

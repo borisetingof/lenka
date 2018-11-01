@@ -28,10 +28,12 @@ class Lambda {
     }
 
     try {
-      if (schema) {
-        validate(event, schema);
+      if (schema && schema.properties.headers.properties.token) {
+        console.log('test'); // authenticate({ token });
       }
+    } catch (e) {}
 
+    try {
       const result = await handler.bind(this)(event);
       return result;
     } catch (e) {

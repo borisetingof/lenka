@@ -6,7 +6,10 @@
     "dependencies": {
         "ajv": "^6.5.4",
         "amazon-cognito-identity-js": "^3.0.3",
-        "node-fetch": "^2.2.0"
+        "jsonwebtoken": "^8.3.0",
+        "jwk-to-pem": "^2.0.0",
+        "node-fetch": "^2.2.0",
+        "request": "^2.88.0"
     },
     "devDependencies": {
         "aws-sdk": "^2.324.0",

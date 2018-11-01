@@ -39,6 +39,36 @@ Resources:
             Path: /register
             Method: put            
 
+  login:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/auth/lambda/login.handler
+      Runtime: nodejs8.10
+      Role:
+        Fn::ImportValue:
+          !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
+      Events:
+        GetEvent:
+          Type: Api
+          Properties:
+            Path: /login
+            Method: put  
+
+  validate:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/auth/lambda/validate.handler
+      Runtime: nodejs8.10
+      Role:
+        Fn::ImportValue:
+          !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
+      Events:
+        GetEvent:
+          Type: Api
+          Properties:
+            Path: /validate
+            Method: post              
+
   getHello:
     Type: AWS::Serverless::Function
     Properties:
