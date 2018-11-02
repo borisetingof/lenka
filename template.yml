@@ -97,7 +97,8 @@ Resources:
           Type: Api
           Properties:
             Path: /hello
-            Method: put          
+            Method: put
+            Authorizer: !Ref ApiCognitoAuthorizer       
   
   lenkaTable:
     Type: AWS::DynamoDB::Table
@@ -112,4 +113,14 @@ Resources:
           KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 1
-        WriteCapacityUnits: 1       
+        WriteCapacityUnits: 1
+
+  ApiCognitoAuthorizer:          
+    Type: AWS::ApiGateway::Authorizer
+    Properties:
+      IdentitySource: 'method.request.header.Authorization'
+      Name: lenka
+      ProviderARNs:
+        - 'arn:aws:cognito-idp:{region}:{userpoolIdentifier}'
+      RestApiId: !Ref ServerlessRestApi //
+      Type: COGNITO_USER_POOLS               
