@@ -7,17 +7,21 @@ const {
 
 const login = async ({ email, password }) => {
   const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+  
   const authenticationData = {
     Username: email,
     Password: password
   };
+  
   const authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
     authenticationData
   );
+  
   const userData = {
     Username: email,
     Pool: userPool
   };
+  
   const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
 
   const token = await new Promise((resolve, reject) => {
