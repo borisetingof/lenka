@@ -2,13 +2,6 @@
   "type": "object",
   "json": "body",
   "properties": {
-    "headers": {
-      "type": "object",
-      "properties": {
-        "token": { "type": "string", "minLength": 100 }
-      },
-      "required": ["token"]
-    },
     "body": {
       "type": "object",
       "properties": {
@@ -19,5 +12,5 @@
       "required": ["id", "name", "surname"]
     }
   },
-  "required": ["headers", "body"]
+  "required": ["body"]
 }
