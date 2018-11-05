@@ -116,13 +116,13 @@ Resources:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
 
-  lenkaAPI:
+  LenkaAPI:
     Type: AWS::Serverless::Api
     Properties:
       DefinitionBody:
         swagger: 2.0
         info:
-          title:
+          title: awscodestar-lenka-lambda
             Ref: AWS::StackName
         x-amazon-apigateway-binary-media-types:
           - '*/*'
@@ -135,7 +135,7 @@ Resources:
             x-amazon-apigateway-authorizer:
               type: cognito_user_pools
               providerARNs:
-              - arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/ap-southeast-2_4lqtgN0Pw
+                - arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/ap-southeast-2_4lqtgN0Pw
         paths:
           /hello/{id}:
             get:
@@ -146,7 +146,7 @@ Resources:
                 httpMethod: "POST"
                 type: "aws_proxy"
               security:
-               - lenkaCognito: []  
+                - lenkaCognito: []  
           /hello:
             put:
               responses: {}
@@ -156,4 +156,4 @@ Resources:
                 httpMethod: "POST"
                 type: "aws_proxy"          
               security:
-               - lenkaCognito: []
+                - lenkaCognito: []
