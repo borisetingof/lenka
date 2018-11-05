@@ -7,8 +7,6 @@ Parameters:
   ProjectId:
     Type: String
     Description: AWS CodeStar projectID used to associate new resources to team members
-  Environment:
-    Type: String
 
 Resources:
   index:
@@ -123,7 +121,7 @@ Resources:
     Properties:
       DefinitionBody:
         swagger: 2.0
-        StageName: !Sub ${Environment}
+        StageName: Prod
         info:
           title: awscodestar-lenka-lambda
         x-amazon-apigateway-binary-media-types:
