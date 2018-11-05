@@ -126,7 +126,7 @@ Resources:
           title: awscodestar-lenka-lambda
         x-amazon-apigateway-binary-media-types:
           - '*/*'
-        securitySchemes:
+        securityDefinitions:
           lenkaCognito:
             type: apiKey
             name: Authorization
@@ -141,7 +141,7 @@ Resources:
             get:
               responses: {}
               x-amazon-apigateway-integration:
-                uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${getHello.Arn}/invocations"
+                uri: "arn:aws:lambda:ap-southeast-2:231751552761:function:awscodestar-lenka-lambda-getHello-1GKNLR3SPTCCV"
                 passthroughBehavior: "when_no_match"
                 httpMethod: "POST"
                 type: "aws_proxy"
@@ -151,7 +151,7 @@ Resources:
             put:
               responses: {}
               x-amazon-apigateway-integration:
-                uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${putHello.Arn}/invocations"
+                uri: "arn:aws:lambda:ap-southeast-2:231751552761:function:awscodestar-lenka-lambda-putHello-1244T94ZFIOQO"
                 passthroughBehavior: "when_no_match"
                 httpMethod: "POST"
                 type: "aws_proxy"          
