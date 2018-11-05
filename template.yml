@@ -14,9 +14,6 @@ Resources:
     Properties:
       Handler: src/auth/lambda/register.handler
       Runtime: nodejs8.10
-      Policies:
-        - AWSLambdaBasicExecutionRole
-        - AmazonDynamoDBFullAccess  
       Role:
         Fn::ImportValue:
           !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
@@ -32,9 +29,6 @@ Resources:
     Properties:
       Handler: src/auth/lambda/login.handler
       Runtime: nodejs8.10
-      Policies:
-        - AWSLambdaBasicExecutionRole
-        - AmazonDynamoDBFullAccess  
       Role:
         Fn::ImportValue:
           !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
@@ -50,9 +44,6 @@ Resources:
     Properties:
       Handler: src/auth/lambda/validate.handler
       Runtime: nodejs8.10
-      Policies:
-        - AWSLambdaBasicExecutionRole
-        - AmazonDynamoDBFullAccess  
       Role:
         Fn::ImportValue:
           !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
@@ -69,9 +60,6 @@ Resources:
       FunctionName: !Sub getHello
       Handler: src/hello/lambda/getHello.handler
       Runtime: nodejs8.10
-      Policies:
-        - AWSLambdaBasicExecutionRole
-        - AmazonDynamoDBFullAccess  
       Role:
         Fn::ImportValue:
           !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
@@ -88,9 +76,6 @@ Resources:
       FunctionName: !Sub putHello
       Handler: src/hello/lambda/putHello.handler
       Runtime: nodejs8.10
-      Policies:
-        - AWSLambdaBasicExecutionRole
-        - AmazonDynamoDBFullAccess  
       Role:
         Fn::ImportValue:
           !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
@@ -145,6 +130,7 @@ Resources:
                 passthroughBehavior: "when_no_match"
                 httpMethod: "POST"
                 type: "aws_proxy"
+                credentials: null
               security:
                 - lenkaCognito: []  
           /hello:
@@ -154,7 +140,8 @@ Resources:
                 uri: "arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:231751552761:function:awscodestar-lenka-lambda-putHello-1244T94ZFIOQO/invocations"
                 passthroughBehavior: "when_no_match"
                 httpMethod: "POST"
-                type: "aws_proxy"          
+                type: "aws_proxy"
+                credentials: null          
               security:
                 - lenkaCognito: []
           /login:
@@ -164,6 +151,7 @@ Resources:
                 passthroughBehavior: "when_no_match"
                 httpMethod: "POST"
                 type: "aws_proxy"
+                credentials: null
           /register:
             put:
               x-amazon-apigateway-integration:
@@ -171,3 +159,4 @@ Resources:
                 passthroughBehavior: "when_no_match"
                 httpMethod: "POST"
                 type: "aws_proxy"
+                credentials: null
