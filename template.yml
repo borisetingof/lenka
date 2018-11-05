@@ -119,7 +119,6 @@ Resources:
   lenkaAPI:
     Type: AWS::Serverless::Api
     Properties:
-      StageName: !Sub ${Environment}
       DefinitionBody:
         swagger: 2.0
         info:
