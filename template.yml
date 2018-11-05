@@ -119,9 +119,9 @@ Resources:
   LenkaAPI:
     Type: AWS::Serverless::Api
     Properties:
+      StageName: Prod
       DefinitionBody:
         swagger: 2.0
-        StageName: Prod
         info:
           title: awscodestar-lenka-lambda
         x-amazon-apigateway-binary-media-types:
