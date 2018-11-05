@@ -9,21 +9,6 @@ Parameters:
     Description: AWS CodeStar projectID used to associate new resources to team members
 
 Resources:
-  index:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/index.get
-      Runtime: nodejs8.10
-      Role:
-        Fn::ImportValue:
-          !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
-      Events:
-        GetEvent:
-          Type: Api
-          Properties:
-            Path: /
-            Method: get
-
   register:
     Type: AWS::Serverless::Function
     Properties:
@@ -157,3 +142,17 @@ Resources:
                 type: "aws_proxy"          
               security:
                 - lenkaCognito: []
+          /login:
+            put:
+              x-amazon-apigateway-integration:
+                uri: "arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:231751552761:function:awscodestar-lenka-lambda-login-1LO20O0OWIJ2M/invocations"
+                passthroughBehavior: "when_no_match"
+                httpMethod: "POST"
+                type: "aws_proxy"
+          /register:
+            put:
+              x-amazon-apigateway-integration:
+                uri: "arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:231751552761:function:awscodestar-lenka-lambda-register-1FLDP06AB3YFS/invocations"
+                passthroughBehavior: "when_no_match"
+                httpMethod: "POST"
+                type: "aws_proxy"
