@@ -139,12 +139,14 @@ Resources:
         paths:
           /hello/{id}:
             get:
+              responses: {}
               x-amazon-apigateway-integration:
                 uri: "arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:231751552761:function:awscodestar-lenka-lambda-getHello-1GKNLR3SPTCCV/invocations"
               security:
                 - lenkaCognito: []  
           /hello:
             put:
+              responses: {}
               x-amazon-apigateway-integration:
                 uri: "arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:231751552761:function:awscodestar-lenka-lambda-putHello-1244T94ZFIOQO/invocations"
               security:
