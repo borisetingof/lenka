@@ -130,6 +130,7 @@ Resources:
                 passthroughBehavior: "when_no_match"
                 httpMethod: "POST"
                 type: "aws_proxy"
+                credentials: !GetAtt GatewayExecutionRole.Arn
               security:
                 - lenkaCognito: []  
           /hello:
@@ -139,7 +140,8 @@ Resources:
                 uri: "arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:231751552761:function:awscodestar-lenka-lambda-putHello-1244T94ZFIOQO/invocations"
                 passthroughBehavior: "when_no_match"
                 httpMethod: "POST"
-                type: "aws_proxy"          
+                type: "aws_proxy"
+                credentials: !GetAtt GatewayExecutionRole.Arn          
               security:
                 - lenkaCognito: []
           /login:
@@ -149,6 +151,7 @@ Resources:
                 passthroughBehavior: "when_no_match"
                 httpMethod: "POST"
                 type: "aws_proxy"
+                credentials: !GetAtt GatewayExecutionRole.Arn
           /register:
             put:
               x-amazon-apigateway-integration:
@@ -156,3 +159,4 @@ Resources:
                 passthroughBehavior: "when_no_match"
                 httpMethod: "POST"
                 type: "aws_proxy"
+                credentials: !GetAtt GatewayExecutionRole.Arn
