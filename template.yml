@@ -123,7 +123,6 @@ Resources:
         swagger: 2.0
         info:
           title: awscodestar-lenka-lambda
-            Ref: AWS::StackName
         x-amazon-apigateway-binary-media-types:
           - '*/*'
         securitySchemes:
