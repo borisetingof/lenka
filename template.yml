@@ -72,6 +72,7 @@ Resources:
   getHello:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: !Sub getHello
       Handler: src/hello/lambda/getHello.handler
       Runtime: nodejs8.10
       Role:
@@ -87,6 +88,7 @@ Resources:
   putHello:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: !Sub putHello
       Handler: src/hello/lambda/putHello.handler
       Runtime: nodejs8.10
       Role:
@@ -98,7 +100,6 @@ Resources:
           Properties:
             Path: /hello
             Method: put
-            Authorizer: !Ref ApiCognitoAuthorizer       
   
   lenkaTable:
     Type: AWS::DynamoDB::Table
@@ -115,12 +116,45 @@ Resources:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
 
-  ApiCognitoAuthorizer:          
-    Type: AWS::ApiGateway::Authorizer
+  lenkaAPI:
+    Type: AWS::Serverless::Api
     Properties:
-      IdentitySource: 'method.request.header.Authorization'
-      Name: lenka
-      ProviderARNs:
-        - 'arn:aws:cognito-idp:{region}:{userpoolIdentifier}'
-      RestApiId: !Ref ServerlessRestApi //
-      Type: COGNITO_USER_POOLS               
+      StageName: !Sub ${Environment}
+      DefinitionBody:
+        swagger: 2.0
+        info:
+          title:
+            Ref: AWS::StackName
+        x-amazon-apigateway-binary-media-types:
+          - '*/*'
+        securitySchemes:
+          lenkaCognito:
+            type: apiKey
+            name: Authorization
+            in: header
+            x-amazon-apigateway-authtype: cognito_user_pools
+            x-amazon-apigateway-authorizer:
+              type: cognito_user_pools
+              providerARNs:
+              - arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/ap-southeast-2_4lqtgN0Pw
+        paths:
+          /hello/{id}:
+            get:
+              responses: {}
+              x-amazon-apigateway-integration:
+                uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${getHello.Arn}/invocations"
+                passthroughBehavior: "when_no_match"
+                httpMethod: "POST"
+                type: "aws_proxy"
+              security:
+               - lenkaCognito: []  
+          /hello:
+            put:
+              responses: {}
+              x-amazon-apigateway-integration:
+                uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${putHello.Arn}/invocations"
+                passthroughBehavior: "when_no_match"
+                httpMethod: "POST"
+                type: "aws_proxy"          
+              security:
+               - lenkaCognito: []
