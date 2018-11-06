@@ -138,7 +138,6 @@ Resources:
                 passthroughBehavior: "when_no_match"
                 httpMethod: "POST"
                 type: "aws_proxy"
-                credentials: null
               security:
                 - lenkaCognito: []  
           /hello:
@@ -149,7 +148,6 @@ Resources:
                 passthroughBehavior: "when_no_match"
                 httpMethod: "POST"
                 type: "aws_proxy"
-                credentials: null          
               security:
                 - lenkaCognito: []
           /login:
@@ -159,7 +157,6 @@ Resources:
                 passthroughBehavior: "when_no_match"
                 httpMethod: "POST"
                 type: "aws_proxy"
-                credentials: null
           /register:
             put:
               x-amazon-apigateway-integration:
@@ -167,4 +164,3 @@ Resources:
                 passthroughBehavior: "when_no_match"
                 httpMethod: "POST"
                 type: "aws_proxy"
-                credentials: null
