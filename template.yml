@@ -49,11 +49,13 @@ Resources:
         Fn::ImportValue:
           !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
       Events:
-        GetEvent:
+        GetEApi:
           Type: Api
           Properties:
             Path: /hello/{id}
             Method: get
+            RestApiId: 
+                Ref: LenkaAPI
 
   putHello:
     Type: AWS::Serverless::Function
