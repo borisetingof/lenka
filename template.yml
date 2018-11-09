@@ -18,11 +18,13 @@ Resources:
         Fn::ImportValue:
           !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
       Events:
-        GetEvent:
+        GetApi:
           Type: Api
           Properties:
             Path: /register
-            Method: put            
+            Method: put
+            RestApiId: 
+                Ref: LenkaAPI            
 
   login:
     Type: AWS::Serverless::Function
@@ -33,11 +35,13 @@ Resources:
         Fn::ImportValue:
           !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
       Events:
-        GetEvent:
+        GetApi:
           Type: Api
           Properties:
             Path: /login
             Method: put  
+            RestApiId: 
+                Ref: LenkaAPI            
 
   getHello:
     Type: AWS::Serverless::Function
@@ -49,11 +53,13 @@ Resources:
         Fn::ImportValue:
           !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
       Events:
-        GetEvent:
+        GetApi:
           Type: Api
           Properties:
             Path: /hello/{id}
             Method: get
+            RestApiId: 
+                Ref: LenkaAPI            
 
   putHello:
     Type: AWS::Serverless::Function
@@ -65,11 +71,13 @@ Resources:
         Fn::ImportValue:
           !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
       Events:
-        GetEvent:
+        GetApi:
           Type: Api
           Properties:
             Path: /hello
             Method: put
+            RestApiId: 
+                Ref: LenkaAPI            
   
   lenkaTable:
     Type: AWS::DynamoDB::Table
@@ -101,7 +109,8 @@ Resources:
       DefinitionBody:
         swagger: 2.0
         info:
-          title: lenka
+          title:
+            Ref: AWS::StackName
         x-amazon-apigateway-binary-media-types:
           - '*/*'
         securitySchemes:
