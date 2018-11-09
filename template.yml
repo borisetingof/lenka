@@ -109,8 +109,7 @@ Resources:
       DefinitionBody:
         swagger: 2.0
         info:
-          title:
-            Ref: AWS::StackName
+          title: lenka
         x-amazon-apigateway-binary-media-types:
           - '*/*'
         securitySchemes:
