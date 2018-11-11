@@ -14,9 +14,7 @@ Resources:
     Properties:
       Handler: src/auth/lambda/register.handler
       Runtime: nodejs8.10
-      Role:
-        Fn::ImportValue:
-          !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
+      Policies: AWSLambdaFullAccess
       Events:
         GetApi:
           Type: Api
@@ -31,9 +29,7 @@ Resources:
     Properties:
       Handler: src/auth/lambda/login.handler
       Runtime: nodejs8.10
-      Role:
-        Fn::ImportValue:
-          !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
+      Policies: AWSLambdaFullAccess
       Events:
         GetApi:
           Type: Api
@@ -49,9 +45,7 @@ Resources:
       FunctionName: !Sub getHello
       Handler: src/hello/lambda/getHello.handler
       Runtime: nodejs8.10
-      Role:
-        Fn::ImportValue:
-          !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
+      Policies: AWSLambdaFullAccess
       Events:
         GetApi:
           Type: Api
@@ -67,9 +61,7 @@ Resources:
       FunctionName: !Sub putHello
       Handler: src/hello/lambda/putHello.handler
       Runtime: nodejs8.10
-      Role:
-        Fn::ImportValue:
-          !Join ['-', [!Ref 'ProjectId', !Ref 'AWS::Region', 'LambdaTrustRole']]
+      Policies: AWSLambdaFullAccess
       Events:
         GetApi:
           Type: Api
@@ -79,6 +71,51 @@ Resources:
             RestApiId: 
                 Ref: LenkaAPI            
   
+  LenkaAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      DefinitionBody:
+        swagger: 2.0
+        info:
+          title: lenka
+        paths:
+          /hello/{id}:
+            get:
+              x-amazon-apigateway-integration:
+                httpMethod: "POST"
+                type: "aws_proxy"
+                uri: 
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${getHello.Arn}/invocations
+              responses: {}
+          
+          /hello:
+            put:
+              x-amazon-apigateway-integration:
+                httpMethod: "POST"
+                type: "aws_proxy"
+                uri: 
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${putHello.Arn}/invocations
+              responses: {}
+          
+          /login:
+            put:
+              x-amazon-apigateway-integration:
+                httpMethod: "POST"
+                type: "aws_proxy"
+                uri: 
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${login.Arn}/invocations
+              responses: {}
+          
+          /register:
+            put:
+              x-amazon-apigateway-integration:
+                httpMethod: "POST"
+                type: "aws_proxy"
+                uri: 
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${register.Arn}/invocations
+              responses: {}
+
   lenkaTable:
     Type: AWS::DynamoDB::Table
     DeletionPolicy: Retain
@@ -93,43 +130,3 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
-
-  LenkaAPI:
-    Type: AWS::Serverless::Api
-    Properties:
-      StageName: Prod
-      DefinitionBody:
-        swagger: 2.0
-        info:
-          title: lenka
-        paths:
-          /hello/{id}:
-            get:
-              responses: {}
-              x-amazon-apigateway-integration:
-                uri: "arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:231751552761:function:awscodestar-lenka-lambda-getHello-1GKNLR3SPTCCV/invocations"
-                passthroughBehavior: "when_no_match"
-                httpMethod: "POST"
-                type: "aws_proxy"
-          /hello:
-            put:
-              responses: {}
-              x-amazon-apigateway-integration:
-                uri: "arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:231751552761:function:awscodestar-lenka-lambda-putHello-1244T94ZFIOQO/invocations"
-                passthroughBehavior: "when_no_match"
-                httpMethod: "POST"
-                type: "aws_proxy"
-          /login:
-            put:
-              x-amazon-apigateway-integration:
-                uri: "arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:231751552761:function:awscodestar-lenka-lambda-login-1LO20O0OWIJ2M/invocations"
-                passthroughBehavior: "when_no_match"
-                httpMethod: "POST"
-                type: "aws_proxy"
-          /register:
-            put:
-              x-amazon-apigateway-integration:
-                uri: "arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:231751552761:function:awscodestar-lenka-lambda-register-1FLDP06AB3YFS/invocations"
-                passthroughBehavior: "when_no_match"
-                httpMethod: "POST"
-                type: "aws_proxy"
