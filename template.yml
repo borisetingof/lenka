@@ -30,6 +30,7 @@ Resources:
       Handler: src/auth/lambda/login.handler
       Runtime: nodejs8.10
       Policies: AWSLambdaFullAccess
+      Timeout: 10
       Events:
         GetApi:
           Type: Api

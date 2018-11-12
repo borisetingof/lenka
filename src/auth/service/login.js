@@ -31,10 +31,7 @@ const login = async ({ email, password }) => {
           accessToken: result.getAccessToken().getJwtToken(),
           idToken: result.idToken.jwtToken
         }),
-      onFailure: err => {
-        console.log(err);
-        return reject(err);
-      }
+      onFailure: err => reject(err)
     });
   });
 
