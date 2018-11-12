@@ -79,6 +79,17 @@ Resources:
         swagger: 2.0
         info:
           title: lenka
+        securitySchemes:
+          lenkaCognito:
+            type: apiKey
+            name: Authorization
+            in: header
+            x-amazon-apigateway-authtype: cognito_user_pools
+            x-amazon-apigateway-authorizer:
+              type: cognito_user_pools
+              providerARNs:
+                - arn:aws:cognito-idp:ap-southeast-2:231751552761:userpool/ap-southeast-2_4lqtgN0Pw
+  
         paths:
           /hello/{id}:
             get:
@@ -87,6 +98,8 @@ Resources:
                 type: "aws_proxy"
                 uri: 
                   Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${getHello.Arn}/invocations
+              security:
+                - lenkaCognito: []  
               responses: {}
           
           /hello:
@@ -96,6 +109,8 @@ Resources:
                 type: "aws_proxy"
                 uri: 
                   Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${putHello.Arn}/invocations
+              security:
+                - lenkaCognito: []  
               responses: {}
           
           /login:
