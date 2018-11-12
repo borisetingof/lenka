@@ -79,16 +79,16 @@ Resources:
         swagger: 2.0
         info:
           title: lenka
-        securitySchemes:
+        securityDefinitions:
           lenkaCognito:
             type: apiKey
             name: Authorization
             in: header
             x-amazon-apigateway-authtype: cognito_user_pools
             x-amazon-apigateway-authorizer:
-              type: cognito_user_pools
               providerARNs:
-                - arn:aws:cognito-idp:ap-southeast-2:231751552761:userpool/ap-southeast-2_4lqtgN0Pw
+                - Fn::Sub: arn:aws:cognito-idp:ap-southeast-2:231751552761:userpool/ap-southeast-2_4lqtgN0Pw
+              type: cognito_user_pools
   
         paths:
           /hello/{id}:
@@ -96,6 +96,7 @@ Resources:
               x-amazon-apigateway-integration:
                 httpMethod: "POST"
                 type: "aws_proxy"
+                passthroughBehavior: "when_no_match"
                 uri: 
                   Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${getHello.Arn}/invocations
               security:
@@ -107,6 +108,7 @@ Resources:
               x-amazon-apigateway-integration:
                 httpMethod: "POST"
                 type: "aws_proxy"
+                passthroughBehavior: "when_no_match"
                 uri: 
                   Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${putHello.Arn}/invocations
               security:
@@ -118,6 +120,7 @@ Resources:
               x-amazon-apigateway-integration:
                 httpMethod: "POST"
                 type: "aws_proxy"
+                passthroughBehavior: "when_no_match"
                 uri: 
                   Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${login.Arn}/invocations
               responses: {}
@@ -127,6 +130,7 @@ Resources:
               x-amazon-apigateway-integration:
                 httpMethod: "POST"
                 type: "aws_proxy"
+                passthroughBehavior: "when_no_match"
                 uri: 
                   Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${register.Arn}/invocations
               responses: {}
